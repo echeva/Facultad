@@ -3,7 +3,8 @@ y 1 director. Los usuarios y el director están continuamente trabajando y cada 
 documentos a imprimir. Cada impresora, cuando está libre, toma un documento y lo
 imprime, de acuerdo al orden de llegada, pero siempre dando prioridad a los pedidos del
 director. Nota: los usuarios y el director no deben esperar a que se imprima el documento.*/
-/* Con el administrador evitamos que uno de los process impresora se quede trabado en un receive */
+/*Con el empty en el process impresora, dsps de que pregunto, una de las impresoras me puede ganar y 
+hacer un receive y que la cola este vacia, por eso se usa un proceso admin*/
 
 Chan colaUsuarios(String);
 Chan colaDirector(String);
@@ -27,6 +28,7 @@ Process director{
 }
 
 Process administrador{
+	//el admin maneja las prioridades con un if deterministico
 	int impresora;
 	String documento;
 	while(true){
