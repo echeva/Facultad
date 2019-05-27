@@ -1,6 +1,7 @@
 /*10.Se debe modelar la atención en una panadería por parte de 3 empleados. 
 Hay C clientes que  ingresan  al  negocio  para  ser  atendidos  por  cualquiera  de  
 los  empleados,  los  cuales  deben atenderse de acuerdo al orden de llegada.*/
+//si la condicion booleana siempre es true, se lo dejamos explicito
 
 Queue cola;
 
@@ -10,8 +11,8 @@ process Cliente[i=1 to C]{
 
 process Administrador{
 	while true{
-		if condicionBooleana; atencion[*] ? -> encolar; //tiene algo
-		▣ condicionBooleana; empleadoLibre[*] ? 
+		if true; cliente[*] ? atencion(idCliente) -> encolar; //tiene algo
+		▣ true; empleadoLibre[*] ? 
 			-> 	desencolar;									
 				empleadoLibre[id] ! pedido(pedido);
 		fi

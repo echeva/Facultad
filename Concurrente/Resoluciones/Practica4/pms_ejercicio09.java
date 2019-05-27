@@ -11,18 +11,28 @@
 /*PMS Hasta que el otro proceso no reciba un msj, no puedo continuar.
  tanto el send como el receive son bloqueantes y no tengo cola de mensajes
 Radares: 
- up! -> el send es con !
+ cpu! -> el send es con !
  Radar[*] -> esto quiere decir que recibo msj de cualquier proceso Radar
  Si ponemos un process admin que encola todas las señales que recibe de radar, */
 
-process admin
-	while true: 
+Process radar[i=1 to 10]{
+	while(true){
+		delay(15);//detectar señal
+		Admin! (señal);
+	}
+}
+
+Process admin{
+	while(true){
 		// ambas sentencias tienen = prioridad. Espera a que alguna se pueda ejecutar
 		if radar[*] ? (señal)-> cola.push(señal)
 		▣ not empty(cola) cpu?() -> cpu!(cola.pop())
+	}
+}
 
-process cpu
-	while true:
+Process cpu{
+	while (true)
 		Admin ! Solicitar()
 		Admin ? (señal) #procesa
+}
 

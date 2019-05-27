@@ -4,55 +4,56 @@ ese tiempo se retira sin realizar la compra.*/
 
 
 Process persona[i=1 to N]{
-	timer[i]! avisarLlegada(i);
-	coordinador! avisarLlegada(i);
-	if Empleado?irse() -> skip();
-     Timer?irse() -> skip();
+	timer[i] ! avisarLlegada(i);
+	coordinador ! avisarLlegada(i);
+	if Empleado ? irse() -> skip();
+       ▣ Timer ? irse() -> skip();
+    fi
 }
 
 Process empleado{
 	int persona
 	string estado
-
-	while (true)
-		Coordinador!libre()
-		Coordinador?atender(persona)
-		Estado[persona]!empleadoConsulta()
-		Estado[persona]?check(estado)
-		if (estado == 'esperando')
-		  atender(persona)
-		  Persona[persona]!irse()
-	end
+	while (true){
+		Coordinador ! libre();
+		Coordinador ? atender(persona);
+		Estado[persona] ! empleadoConsulta();
+		Estado[persona] ? check(estado);
+		if (estado == 'esperando'){
+		  atender(persona);
+		  Persona[persona] ! irse();
+		}
+	}
 }
 
 Process coordinador{
 	queue cola
 	int id
 
-	do Persona[*]?avisarLlegada(id) -> cola.encolar(id)
-	 !empty(cola); Empleado?libre() -> Empelado!atender(cola.desencolar)
-	end
+	do Persona[*] ? avisarLlegada(id) -> cola.encolar(id)
+	 !empty(cola); Empleado ? libre() -> Empleado ! atender(cola.desencolar)
+	enddo
 }
 
 Process estado{
 	string estado = 'esperando'
 	int id
   
-  	do Empleado?empleadoConsulta() -> Empleado!check(estado)
+  	do Empleado ? empleadoConsulta() -> Empleado ! check(estado)
                                     if (estado == 'esperando')
                                       estado = 'atendido'
-    Timer[*]?timerConsulta(id) -> Timer[id]!check(estado)
+    Timer[*] ? timerConsulta(id) -> Timer[id] ! check(estado)
                                    if (estado == 'esperando')
                                       estado = 'yendo'
-  	end
+  	enddo
 }
 
 Process timer[i=1 to N]{
-	Persona[i]? avisarLlegada();
+	Persona[i] ? avisarLlegada();
   	delay(10);
-  	Estado[i]! timerConsulta(i);
-  	Estado[i]? check(estado);
-  	if (estado == 'esperando')
-    	Persona[i]!irse()
-
+  	Estado[i] ! timerConsulta(i);
+  	Estado[i] ? check(estado);
+  	if (estado == 'esperando'){
+    	Persona[i] ! irse();
+  	}
 }
