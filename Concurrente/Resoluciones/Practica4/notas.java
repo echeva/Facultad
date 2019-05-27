@@ -6,3 +6,5 @@ Y siempre y cuando los procesos que iguales tengan que preguntar si esta vacío,
 si pueden esperar eternamente a que haya un mensaje*/
 
 /*PMS tanto el send como el receive son bloqueantes.*/
+//el do recorre cuantas veces sea necesario, hasta que todas las sentencias sean falsas
+
