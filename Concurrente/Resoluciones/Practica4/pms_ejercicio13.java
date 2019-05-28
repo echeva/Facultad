@@ -12,7 +12,7 @@ Process paciente[i=1 to N]{
 	empleado ? retirarse(); 
 }
 
-Process coordinador{
+Process coordinador{ //CONSULTAR puede ser uno solo no?
 	Queue cola;
 	while(true){
 		if true; paciente[*] ? avisarLlegada(idPaciente) -> push(cola(idPaciente));
