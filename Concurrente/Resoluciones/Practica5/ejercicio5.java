@@ -19,11 +19,9 @@ TASK medicoGuardia IS
 END;
 
 TASK TYPE enfermera;
-
 enfermeras = array() of enfermera;
 
 TASK TYPE persona;
-
 personas = array() of persona;
 
 TASK administrador IS
@@ -35,7 +33,9 @@ TASK BODY medicoGuardia
 BEGIN
 	LOOP
 		SELECT ACCEPT atencionPaciente();
-		OR WHEN(atencionPaciente`count = 0) ACCEPT atencionEnferma();
+			   delay(); //procesa la solicitud
+		OR WHEN(atencionPaciente`count = 0) ACCEPT atencionEnfermera();
+		OR WHEN(atencionPaciente`count = 0 AND atencionEnfermera`count = 0) ACCEPT dejarNota();
 		END SELECT;
 	END LOOP;
 END;
@@ -52,6 +52,7 @@ BEGIN
 		OR DELAY 5
 			cant ++;
 			if (cant == 3) {
+				//la persona se retira de la clinica
 				ok:= true;
 			}else{
 				Delay(10);
