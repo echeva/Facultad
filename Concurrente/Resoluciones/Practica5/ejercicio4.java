@@ -16,7 +16,11 @@ de acceso para leer.*/
 TASK TYPE procesoTipo1;
 TASK TYPE procesoTipo2;
 TASK TYPE procesoTipo3;
-TASK administrador;
+TASK administrador IS
+	ENTRY quieroEscribir();
+	ENTRY quieroLeer();
+	ENTRY liberarBase();
+END;
 
 procesosTipo1 = array(1..A) of procesoTipo1;
 procesosTipo2 = array(1..B) of procesoTipo2;

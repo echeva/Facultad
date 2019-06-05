@@ -8,7 +8,7 @@ TASK TYPE contador;
 
 contadores = array(1..n) of contador;
 
-TASK body contador
+TASK BODY contador
 var num, total: int;
 var vector[];
 BEGIN
@@ -28,7 +28,7 @@ TASK administrador IS
 	ENTRY enviarCuenta(cantidad: in int);
 END;
 
-TASK body administrador
+TASK BODY administrador
 var nro, cant: int;
 BEGIN
 	cant:=0;
