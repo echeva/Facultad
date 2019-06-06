@@ -18,7 +18,7 @@ var string destino;
 var int asiento;
 BEGIN
 	destino:= "Mi destino";
-	servidor solicitarPasaje(destino, asiento);
+	servidor.solicitarPasaje(destino, asiento);
 	if (asiento != -1) {
 		//imprime su pasaje	
 	}
@@ -26,11 +26,13 @@ END;
 
 TASK BODY servidor
 var string[] pasajes;
+var pasajes[] destinos; 
 BEGIN
 	LOOP
 		ACCEPT solicitarPasaje(destino: IN string, asiento: OUT int) IS
 			   //consulta si hay asientos disponibles para el destino solicitado
-			   
+			   arreglo = destinos[destino];
+			   'buscar el proximo libre' 
 		END ACCEPT;
 	END LOOP;
 END;

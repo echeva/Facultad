@@ -25,7 +25,7 @@ BEGIN
 	LOOP
 		Recepcionista.pedirNumeroDeReclamo(numero);
 		--trabajando--
-	ENDLOOP; 
+	END LOOP; 
 END;
 
 TASK BODY Empleade
@@ -33,14 +33,22 @@ TASK BODY Empleade
 BEGIN
 	LOOP
 		Recepcionista.pedirReclamo(reclamo);
-	ENDLOOP;
+		--atiende reclamo--
+	END LOOP;
 END;
 
 TASK BODY Recepcionista
+var Queue reclamos;
 BEGIN
 	LOOP
-		SELECT ACCEPT pedirNumeroDeReclamo(random(1,20));
-			   WHEN pedirNumeroDeReclamo`count = 0; ACCEPT pedirReclamo
-	ENDLOOP;
+		SELECT WHEN(pedirReclamo`count = 0) ACCEPT pedirNumeroDeReclamo(out numero) IS
+					numero = ramdom(1,29);
+					push(reclamos, numero);
+				END pedirNumeroDeReclamo;
+			OR WHEN !empty(reclamos) ACCEPT pedirReclamo(numero) IS
+				numero = pop(reclamos);
+			END pedirReclamo;
+		END SELECT;	
+	END LOOP;
 
 END;

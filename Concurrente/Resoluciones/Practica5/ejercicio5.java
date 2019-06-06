@@ -17,26 +17,33 @@ tiempo. Cuando está libre aprovecha a procesar las notas dejadas por las enferm
 TASK medicoGuardia IS
 	ENTRY atencionPaciente();
 	ENTRY atencionEnfermera();
+	ENTRY dejarNota();
 END;
 
 TASK TYPE enfermera;
-enfermeras = array() of enfermera;
+enfermeras = array(1..E) of enfermera;
 
 TASK TYPE persona;
-personas = array() of persona;
+personas = array(1..P) of persona;
 
 TASK administrador IS
-	ENTRY dejarNota();
+	ENTRY dejarNota(nota: IN String);
+	ENTRY solicitarNota(nota: OUT String);
 END;
 
 
 TASK BODY medicoGuardia
+var String nota;
 BEGIN
 	LOOP
 		SELECT ACCEPT atencionPaciente();
 			   delay(); //procesa la solicitud
 		OR WHEN(atencionPaciente`count = 0) ACCEPT atencionEnfermera();
-		OR WHEN(atencionPaciente`count = 0 AND atencionEnfermera`count = 0) ACCEPT dejarNota();
+		ELSE administrador.solicitarNota(nota); 
+		     if (nota != "") {
+		     	//lee la nota
+		     	delay();
+		     }
 		END SELECT;
 	END LOOP;
 END;
@@ -63,10 +70,13 @@ BEGIN
 END;
 
 TASK BODY enfermera
+var string nota;
 BEGIN
 	LOOP 
 		SELECT medicoGuardia.atencionEnferma();
-		OR administrador.dejarNota();
+		ELSE
+			nota = 'Mi nota';
+			administrador.dejarNota(nota);
 		END SELECT;
 		//continua trabajando
 	END LOOP;
@@ -76,6 +86,7 @@ TASK BODY administrador
 cola notas;
 BEGIN
 	LOOP
-		ACCEPT dejarNota();
+		SELECT ACCEPT dejarNota(nota: IN String) IS;
+		OR ACCEPT solicitarNota()
 	END LOOP;
 END;
