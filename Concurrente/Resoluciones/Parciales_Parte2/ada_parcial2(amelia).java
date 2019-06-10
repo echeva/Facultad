@@ -34,7 +34,8 @@ BEGIN
 		SELECT ACCEPT solicitarSeccion(seccion: OUT String) do
 				seccion = DarSeccion();
 			END solicitarSeccion;
-			OR ACCEPT informarCantidad(cantidad: IN int) do
+			//le damos prioridad a las enrrolladoras que solicitan seccion
+			OR WHEN( solicitarSeccion`count == 0 ) ACCEPT informarCantidad(cantidad: IN int) do
 					cantTotal = cantTotal + cantidad;
 				END informarCantidad;
 				cant = cant + 1;
