@@ -10,12 +10,12 @@ TASK TYPE Cliente;
 TASK Sala IS
 	ENTRY usarHabitual();
 	ENTRY usarTemporal();
-END;
+END Sala;
 
 clientes = array(1 to N) of Cliente;
 
 
-TASK BODY Cliente
+TASK BODY Cliente IS
 	tipo: string;
 BEGIN
 	tipo = Tipo();
@@ -24,10 +24,9 @@ BEGIN
 	}else{
 		Sala.usarTemporal();
 	}
-END;
+END Cliente;
 
-TASK BODY Sala
-BEGIN
+TASK BODY Sala IS
 	LOOP 
 		SELECT ACCEPT usarHabitual();
 				--usar sala --
@@ -36,4 +35,4 @@ BEGIN
 				--usar sala --
 			END usarTemporal;
 	END LOOP;
-END;
+END Sala;
