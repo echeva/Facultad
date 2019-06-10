@@ -42,7 +42,7 @@ Process Administrador{
 			if (!empty(habitual)) {
 				Sala ! solicitarCliente(pop(habitual));
 			}else{
-				Sala ! solicitarCliente(pop(temporal))S
+				Sala ! solicitarCliente(pop(temporal));
 			}
 	}
 }
