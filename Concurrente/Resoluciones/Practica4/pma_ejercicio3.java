@@ -25,13 +25,12 @@ Process vendedor[i=1 to 3]{
 	char pedido;
 
 	while(true){
-		send hayPedido(i);
-		receive pedidoVendedor[i](idCliente, pedido);
+		send hayPedido(i); //le pregunta al coordinador si hay un pedido para atender
+		receive pedidoVendedor[i](idCliente, pedido); //espera a que el coordinador le mande un pedido
 		if (pedido == 'null') {
-			delay(1,3);			
+			delay(1,3);	//si no hay pedido, repone un pack de bebidas		
 		}else{
-			//se lo manda a les cocineres, directamente
-			send cocinar(idCliente, pedido);
+			send cocinar(idCliente, pedido); //le manda el pedido a les cocineres
 		}
 	}
 }
@@ -41,8 +40,7 @@ Process cocinero[i=1 to 2]{
 	char pedido;
 
 	while(true){
-		receive cocinar(idCliente, pedido); 
-		//Consulta hay que preguntar si el chan esta vacio?? 
+		receive cocinar(idCliente, pedido); //espera a recibir un pedido, ya que no realiza ninguna otra tarea
 		//cocina
 		send entregarPedido[idCliente](idCliente, pedido);
 	}

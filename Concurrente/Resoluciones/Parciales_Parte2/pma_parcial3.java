@@ -21,3 +21,43 @@ Aclaraciones:
 	* Existe una función que dado el DNI de la persona devuelve si la misma quiere o
 	no realizar la queja.
 	* MAXIMICE LA CONCURRENCIA.*/
+
+//para ir llevando la cuenta de ka cantidad de gente en cada caja, lo hacemos de forma centralizada, 
+//podemos usar un coordinador dsps para sacar el max o el min, usamos una funcion magica
+
+Chan cajas[5](int id);
+Chan llegue(int id);
+Chan asignarCaja[P](int caja);
+
+Process Persona[i=1 to P]{
+	int caja = 0;
+
+	send llegue(i);
+	receive asignarCaja(caja);
+	send cajas[caja](i);
+	send Timer[i].start(now);
+	//Espera a que le atiendan.
+	receive atender();
+}
+
+Process Caja[i= 1 to 5]{
+	while true{
+
+	}
+}
+
+Process Coordinador{
+	int personaId;
+	while true{
+		receive llegue(personaId);
+		send asignarCaja[personaId](asignarCajaMagica());
+	}
+}
+
+Process Timer[i=1 to P]{
+	date hora;
+
+	receive start(hora);
+	delay(20`);
+
+}
