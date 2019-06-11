@@ -7,9 +7,7 @@ luego la B y por último la C. Dentro de cada categoría se debe respetar el ord
 de llegada. Nota: suponga que existe una función Categoría() que le indica a la 
 persona de qué tipo es.*/
 
-TASK TYPE Persona IS
-	ENTRY usarSuperComputadora();
-END;
+TASK TYPE Persona;
 
 personas = array(1..N) of Persona;
 
@@ -38,7 +36,7 @@ TASK BODY SuperComputadora IS
 	boolean libre;
 BEGIN
 	SELECT ACCEPT liberar(); libre:= true;
-	OR WHEN(usoCategoriaA`count != 0 AND libre) ACCEPT usoCategoriaA(); libre:= false;
+	OR WHEN(libre) ACCEPT usoCategoriaA(); libre:= false;
 	OR WHEN(usoCategoriaB`count != 0 AND usoCategoriaA`count = 0 AND libre) ACCEPT usoCategoriaB(); libre:= false;
 	OR WHEN(usoCategoriaC`count != 0 AND usoCategoriaA`count = 0 AND usoCategoriaB`count = 0 AND libre) 
 		ACCEPT usoCategoriaB(); libre:= false;
