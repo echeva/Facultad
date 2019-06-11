@@ -1,6 +1,7 @@
 /*Suponga que existen N barcos que recorren un canal llevando gente. Su recorrido
 es el siguiente: A-B, B-C, C-A.
-Los barcos parten desde A, van hasta B y luego van hasta C; y de C nuevamente vuelven a A.
+Los barcos parten desde A, van hasta B y luego van hasta C; y de C nuevamente 
+vuelven a A.
 Luego de hacer 7 vueltas completas para durante 1hs a descansar y vuelven a salir.
 No puede haber más de 3 barcos haciendo el mismo recorrido simultaneamente.
 Cuando un barco llega a un punto de parada, los pasajeros que quieren bajar lo hacen. 
