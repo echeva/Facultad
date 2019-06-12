@@ -6,9 +6,9 @@ ese tiempo se retira sin realizar la compra.*/
 Process persona[i=1 to N]{
 	timer[i] ! avisarLlegada(i);
 	coordinador ! avisarLlegada(i);
-	if Empleado ? irse() -> skip();
-       ▣ Timer ? irse() -> skip();
-    fi
+	if true; Empleado ? irse() -> skip();
+       ▣ true; Timer ? irse() -> skip();
+    end if;
 }
 
 Process empleado{

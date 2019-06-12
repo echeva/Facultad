@@ -8,7 +8,7 @@ END;
 TASK body empleado
 BEGIN
 	LOOP
-		ACCEPT atender() is
+		ACCEPT atender() do
 			delay(3); //atiENDe
 		END; 	
 	END;
@@ -19,7 +19,7 @@ TASK TYPE cliente;
 
 clientes = array(1..n) of cliente;
 
-TASK body cliente
+TASK body cliente IS
 BEGIN
 	SELECT empleado.atender();
 	OR DELAY 10; //si pasaron 10' se desencola

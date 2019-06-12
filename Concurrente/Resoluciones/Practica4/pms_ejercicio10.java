@@ -3,25 +3,29 @@ Hay C clientes que  ingresan  al  negocio  para  ser  atendidos  por  cualquiera
 los  empleados,  los  cuales  deben atenderse de acuerdo al orden de llegada.*/
 //si la condicion booleana siempre es true, se lo dejamos explicito
 
-Queue cola;
-
 process Cliente[i=1 to C]{
 	administrador ! atencion(i);
 }
 
 process Administrador{
+	Queue cola;
+	int idCliente;
+	int idEmpleado;
+
 	while true{
-		if true; cliente[*] ? atencion(idCliente) -> encolar; //tiene algo
-		▣ true; empleadoLibre[*] ? 
-			-> 	desencolar;									
-				empleadoLibre[id] ! pedido(pedido);
-		fi
+		if true; cliente[*] ? atencion(idCliente) -> push(cola, idCliente); //tiene algo
+		▣ !empty(cola); empleadoLibre[*] ? libre(idEmpleado)
+			-> empleadoLibre[idEmpleado] ! pedido(pop(cola));
+		end if;
 	}
 }
 
 process Empleado[i=1 to 3]{
+	Pedido pedido; 
+
 	while true{
-		administrador ! empleadoLibre[i] -> no sé que onda;
-		administrador ? pedido(pedido) -> --atender--;
+		administrador ! libre(i);
+		administrador ? pedido(pedido);
+		 --atender--;
 	}
 }
