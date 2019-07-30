@@ -23,10 +23,12 @@ Process radar[i=1 to 10]{
 }
 
 Process admin{
+	Queue cola;
+
 	while(true){
 		// ambas sentencias tienen = prioridad. Espera a que alguna se pueda ejecutar
-		if radar[*] ? (señal)-> cola.push(señal)
-		▣ not empty(cola) cpu?() -> cpu!(cola.pop())
+		if true; radar[*] ? (señal)-> cola.push(señal)
+		▣ not empty(cola); cpu?Solicitar() -> cpu!(cola.pop())
 	}
 }
 

@@ -15,7 +15,7 @@ Chan habilitado(boolean);
 Chan habilitarPista(boolean);
 
 process Coordinador(){
-	id int
+	int id;
 	for i = 1 to C;
 		receive avisar(id)
 	send habilitarPista(True)

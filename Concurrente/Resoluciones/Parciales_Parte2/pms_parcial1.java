@@ -5,46 +5,44 @@ determinar a quién permitirle su uso dando prioridad a los clientes Habituales.
 Dentro de cada clase de cliente se debe respetar el orden de llegada. Nota: suponga
 que existe una funcion Tipo() que le indica al cliente de qué tipo es.*/
 
-Process cliente[i= 1 to N]{
+Process Cliente[i= 1 to N]{
 	var tipo string;
 
 	tipo = Tipo();
-	administrador ! usarSala(tipo, i);
-	sala ? pasar();
+	Administrador ! usarSala(tipo, i);
+	Sala ? pasar();
 	-- usar sala --
+	Sala ! liberarSala();
 
 }
 
-Process sala{
+Process Sala{
 	var cliente;
 	while (true){
-		administrador ! salaLibre();
-		administrador ? solicitarCliente(cliente);
-		cliente.id ! pasar();
+		Administrador ! salaLibre();
+		Administrador ? solicitarCliente(cliente);
+		Cliente[cliente.id] ! pasar();
+		Cliente[cliente.id] ? liberarSala();
 	}
 }
 
-Process administrador{
+Process Administrador{
 	Queue habitual;
 	Queue temporal;
-	Boolean salaLibre;
 
 	while (true) {
-		if cliente[*] ? usarSala(tipo, id)-> 
+		if Cliente[*] ? usarSala(tipo, id)-> 
 				if (tipo = 'Habitual') {
 					push(habitual, id);
 				}else{
 					push(temporal, id);
 				}
-		▣ sala ? salaLibre() -> salaLibre = true;
-		▣ not empty(habitual) OR not empty(temporal); sala? solicitarCliente(cliente) ->  
-				if (not empty(habitual)) {
-					sala!solicitarCliente(habitual.pop());
-				}else{
-					sala!solicitarCliente(temporal.pop());
-				}
+		/*Si hay clientes esperando, tomo el mensaje de sala libre, sino no.*/		
+		▣ !empty(habitual) OR !empty(temporal); Sala ? salaLibre() ->
+			if (!empty(habitual)) {
+				Sala ! solicitarCliente(pop(habitual));
+			}else{
+				Sala ! solicitarCliente(pop(temporal));
+			}
 	}
 }
-
-//No se que hacer cuando la sala avisa que esta libre y tiene que esperar a que
-//le pasen un cliente. No entiendo si es un solo evento o que.

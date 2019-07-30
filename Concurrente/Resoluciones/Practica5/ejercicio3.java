@@ -8,9 +8,9 @@ TASK TYPE contador;
 
 contadores = array(1..n) of contador;
 
-TASK BODY contador
-var num, total: int;
-var vector[];
+TASK BODY contador IS
+	num, total: int;
+	vector[];
 BEGIN
 	total:= 0;
 	administrador.solicitarNumero(num);
@@ -29,7 +29,7 @@ TASK administrador IS
 END;
 
 TASK BODY administrador
-var nro, cant: int;
+	nro, cant: int;
 BEGIN
 	cant:=0;
 	LOOP
